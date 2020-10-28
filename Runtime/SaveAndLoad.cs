@@ -17,7 +17,7 @@ namespace Dragontailgames.Utils
         /// <returns>Retorna json do objeto</returns>
         public static string SerializeObject<T>(T obj)
         {
-            if (obj != null)
+            if (obj == null)
             {
                 Debug.LogError("Objeto nulo");
                 return null;
