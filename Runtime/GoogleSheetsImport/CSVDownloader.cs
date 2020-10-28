@@ -5,17 +5,17 @@ using UnityEngine.Networking;
 
 public static class CSVDownloader
 {
-    private const string k_googleSheetDocID = "1MnwQSOcPjcSvc-CUu81X9oZgmo7TJCtTrGgaXljHt6s";
-    private const string url = "https://docs.google.com/spreadsheets/d/" + k_googleSheetDocID + "/export?format=csv";
-
-    internal static IEnumerator DownloadData(System.Action<string> onCompleted)
+    internal static IEnumerator DownloadData(string googleSheetDocId, System.Action<string, bool> onCompleted)
     {
         yield return new WaitForEndOfFrame();
 
+        string url = "https://docs.google.com/spreadsheets/d/" + googleSheetDocId + "/export?format=csv";
+
         string downloadData = null;
+            bool newVersion = false;
+
         using (UnityWebRequest webRequest = UnityWebRequest.Get(url))
         {
-
             yield return webRequest.SendWebRequest();
 
             if (webRequest.isNetworkError)
@@ -36,6 +36,11 @@ public static class CSVDownloader
 
                 string versionText = webRequest.downloadHandler.text.Substring(0, equalsIndex);
 
+                if (!string.IsNullOrEmpty(PlayerPrefs.GetString("LastDataDownloaded")) && PlayerPrefs.GetString("LastDataDownloaded") != versionText)
+                {
+                    newVersion = true;
+                }
+
                 PlayerPrefs.SetString("LastDataDownloaded", webRequest.downloadHandler.text);
                 PlayerPrefs.SetString("LastDataDownloadedVersion", versionText);
 
@@ -43,6 +48,6 @@ public static class CSVDownloader
             }
         }
 
-        onCompleted(downloadData);
+        onCompleted(downloadData, newVersion);
     }
 }

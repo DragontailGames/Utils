@@ -7,6 +7,7 @@ public static class TermData {
 
     [System.Serializable]
     public class Terms {
+
         // < language, index of language's term within a value of termTranslations >
         public List<LanguageIndicie> languageIndicies;
 

@@ -3,27 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+#if UNITY_EDITOR
+
+using UnityEditor;
+
+#endif
+
 namespace Dragontailgames.Utils
 {
-
     public class Loader : MonoBehaviour
     {
         private int progress = 0;
         List<string> languages = new List<string>();
 
+        public string googleSheetId = "";
+
+        [ReadOnly]
         public TermData.Terms termData;
 
-        private void Awake()
+        public System.Action afterDownloadSetupTexts;
+
+        public void Load(System.Action setupTexts)
         {
-            Load();
+            afterDownloadSetupTexts = setupTexts;
+            StartCoroutine(CSVDownloader.DownloadData(googleSheetId, AfterDownload));
         }
 
-        public void Load()
-        {
-            StartCoroutine(CSVDownloader.DownloadData(AfterDownload));
-        }
-
-        public void AfterDownload(string data)
+        public void AfterDownload(string data, bool changeVersion)
         {
             if (null == data)
             {
@@ -33,8 +39,22 @@ namespace Dragontailgames.Utils
             }
             else
             {
-                StartCoroutine(ProcessData(data, AfterProcessData));
+                if (changeVersion)
+                {
+                    StartCoroutine(ProcessData(data, AfterProcessData));
+                }
+                else
+                {
+                    ProcessLocalData();
+                }
             }
+        }
+
+        private void ProcessLocalData()
+        {
+            termData = SaveAndLoad.DeserializeObject<TermData.Terms>(SaveAndLoad.Load("Terms"));
+            afterDownloadSetupTexts?.Invoke();
+            Debug.Log("Old version local loaded");
         }
 
         private void AfterProcessData(string errorMessage)
@@ -46,7 +66,8 @@ namespace Dragontailgames.Utils
             }
             else
             {
-                SaveAndLoad.Save("data term", SaveAndLoad.SerializeObject(termData));
+                SaveAndLoad.Save("Terms", SaveAndLoad.SerializeObject(termData));
+                afterDownloadSetupTexts?.Invoke();
             }
         }
 
@@ -205,6 +226,31 @@ namespace Dragontailgames.Utils
             {
                 Debug.LogError("Database line did not fall into one of the expected categories.");
             }
+        }
+    }
+    
+
+    public class ReadOnlyAttribute : PropertyAttribute
+    {
+
+    }
+
+    [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
+    public class ReadOnlyDrawer : PropertyDrawer
+    {
+        public override float GetPropertyHeight(SerializedProperty property,
+                                                GUIContent label)
+        {
+            return EditorGUI.GetPropertyHeight(property, label, true);
+        }
+
+        public override void OnGUI(Rect position,
+                                    SerializedProperty property,
+                                    GUIContent label)
+        {
+            GUI.enabled = false;
+            EditorGUI.PropertyField(position, property, label, true);
+            GUI.enabled = true;
         }
     }
 }
