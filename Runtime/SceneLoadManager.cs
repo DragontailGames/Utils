@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Photon.Pun;
+
 namespace Dragontailgames.Utils
 {
     public class SceneLoadManager : MonoBehaviour
