@@ -1,7 +1,7 @@
 {
     "name": "com.dragontailgames.utils",
     "displayName": "Dragontailgames Utils",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "author": "Pedro Gomes",
     "dependencies": {
         "com.unity.textmeshpro": "3.0.1"
