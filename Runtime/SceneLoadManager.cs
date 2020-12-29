@@ -33,7 +33,7 @@ namespace Dragontailgames.Utils
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
-        public void LoadScene(string scene)
+        public void LoadScene(int scene)
         {
             SceneManager.LoadScene(scene);
         }
