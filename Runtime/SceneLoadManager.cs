@@ -37,8 +37,13 @@ namespace Dragontailgames.Utils
         {
             SceneManager.LoadScene(index);
         }
+        
+        public void LoadScene(Scene scene)
+        {
+            SceneManager.LoadScene(scene.buildIndex);
+        }
 
-        public void reload()
+        public void Reload()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
