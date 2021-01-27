@@ -1,5 +1,7 @@
 # Utils
 
+Comentario em blocos no VS "Ctrl+Shif+;"
+
 adicione no Package/Manifest
     "com.dragontailgames.utils":"https://github.com/DragontailGames/Utils.git"
     
