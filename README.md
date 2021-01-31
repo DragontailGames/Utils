@@ -13,3 +13,4 @@ adicione no Package/Manifest
         - Adicionar o script Translation Text em um objeto de texto, podendo configurar por tag ou pela palavra no campo de texto/TMpro.
         - Trocar versao na planilha.
         - Exemplo de planilha de tradução: (https://docs.google.com/spreadsheets/d/14Pnu7EW70Lc1IRd9-zbZDnBOFFDy82kVC9YzJjWk4Fc)
+        - Criar uma cena a parte com um script para carregar as bases da tradução (BaseManager)
