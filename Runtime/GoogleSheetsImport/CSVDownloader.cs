@@ -36,7 +36,7 @@ public static class CSVDownloader
 
                 string versionText = webRequest.downloadHandler.text.Substring(0, equalsIndex);
 
-                if (!string.IsNullOrEmpty(PlayerPrefs.GetString("LastDataDownloaded")) && PlayerPrefs.GetString("LastDataDownloaded") != versionText)
+                if (!string.IsNullOrEmpty(PlayerPrefs.GetString("LastDataDownloaded")) || PlayerPrefs.GetString("LastDataDownloaded") != versionText)
                 {
                     newVersion = true;
                 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Photon.Pun;
+
 namespace Dragontailgames.Utils
 {
     public class SceneLoadManager : MonoBehaviour
@@ -33,12 +33,17 @@ namespace Dragontailgames.Utils
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
-        public void gotoScene(int index)
+        public void LoadScene(int scene)
         {
-            SceneManager.LoadScene(index);
+            SceneManager.LoadScene(scene);
+        }
+        
+        public void LoadScene(string scene)
+        {
+            SceneManager.LoadScene(scene);
         }
 
-        public void reload()
+        public void Reload()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }

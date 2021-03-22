@@ -18,7 +18,9 @@ namespace Dragontailgames.Utils
 
         public string googleSheetId = "";
 
+#if UNITY_EDITOR
         [ReadOnly]
+#endif
         public TermData.Terms termData;
 
         public System.Action afterDownloadSetupTexts;
@@ -228,7 +230,9 @@ namespace Dragontailgames.Utils
             }
         }
     }
-    
+
+
+#if UNITY_EDITOR
 
     public class ReadOnlyAttribute : PropertyAttribute
     {
@@ -253,4 +257,5 @@ namespace Dragontailgames.Utils
             GUI.enabled = true;
         }
     }
+#endif
 }

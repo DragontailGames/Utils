@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Dragontailgames.Utils
 {
@@ -12,6 +13,8 @@ namespace Dragontailgames.Utils
         public string language;
 
         public bool downloadedData = false;
+
+        public UnityAction afterTranslate;
 
         void Awake()
         {
@@ -39,6 +42,13 @@ namespace Dragontailgames.Utils
                 aux.SetText();
             }
             downloadedData = true;
+            StartCoroutine(EndDelayed());
+        }
+
+        public IEnumerator EndDelayed()
+        {
+            yield return new WaitForSeconds(1.0f);
+            afterTranslate?.Invoke();
         }
 
         public void StartSaveTerms()

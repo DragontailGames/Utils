@@ -12,42 +12,50 @@ namespace Dragontailgames.Utils
 
         public void Start()
         {
-            if(Translation.instance.IsDownloaded())
+            if (Translation.instance)
             {
-                SetText();
-            }
-            else
-            {
-                Translation.instance.ListenerAfterDownload(this);
+                if (Translation.instance.IsDownloaded())
+                {
+                    SetText();
+                }
+                else
+                {
+                    Translation.instance.ListenerAfterDownload(this);
+                }
             }
         }
 
         public void SetText()
         {
-            if (!this.transform.GetComponent<Text>() && !this.transform.GetComponent<TextMeshProUGUI>())
+            if (Translation.instance != null)
             {
-                Debug.LogError("No text element exists in: " + this.transform.name);
-                return;
-            }
+                if (!this.transform.GetComponent<Text>() && !this.transform.GetComponent<TextMeshProUGUI>())
+                {
+                    Debug.LogError("No text element exists in: " + this.transform.name);
+                    return;
+                }
 
-            if (this.tagId == null && string.IsNullOrEmpty(this.tagId) &&
-                string.IsNullOrEmpty(this.transform.GetComponent<Text>().text) &&
-                string.IsNullOrEmpty(this.transform.GetComponent<TextMeshProUGUI>().text))
-            {
-                Debug.LogError("No id or text defined in: " + this.transform.name);
-            }
+                if (this.tagId == null && string.IsNullOrEmpty(this.tagId) &&
+                    string.IsNullOrEmpty(this.transform.GetComponent<Text>().text) &&
+                    string.IsNullOrEmpty(this.transform.GetComponent<TextMeshProUGUI>().text))
+                {
+                    Debug.LogError("No id or text defined in: " + this.transform.name);
+                }
 
-            if (this.transform.GetComponent<Text>())
-            {
-                string code = string.IsNullOrEmpty(this.tagId) ? this.transform.GetComponent<Text>().text: this.tagId;
-                this.transform.GetComponent<Text>().text = Translation.instance.GetTerm(code);
-            }
+                if (this.transform.GetComponent<Text>())
+                {
+                    string code = string.IsNullOrEmpty(this.tagId) ? this.transform.GetComponent<Text>().text : this.tagId;
+                    this.transform.GetComponent<Text>().text = Translation.instance.GetTerm(code);
+                }
 
-            if (this.transform.GetComponent<TextMeshProUGUI>())
-            {
-                string code = string.IsNullOrEmpty(this.tagId) ? this.transform.GetComponent<TextMeshProUGUI>().text: this.tagId;
+                if (this.transform.GetComponent<TextMeshProUGUI>())
+                {
+                    string code = string.IsNullOrEmpty(this.tagId) ? this.transform.GetComponent<TextMeshProUGUI>().text : this.tagId;
 
-                this.transform.GetComponent<TextMeshProUGUI>().text = Translation.instance.GetTerm(code);
+                    string term = Translation.instance.GetTerm(code);
+                    if (!string.IsNullOrEmpty(term))
+                        this.transform.GetComponent<TextMeshProUGUI>().text = Translation.instance.GetTerm(code);
+                }
             }
         }
     }
